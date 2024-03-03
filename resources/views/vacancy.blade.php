@@ -316,19 +316,22 @@
                         Анкета соискателя
                     </div>
                     <div class="vacancy-popup__form form">
-                        <input type="text" required placeholder="Ваше имя" class="form_name">
-                        <input type="tel" required placeholder="Номер телефона" class="form_tel">
-                        <label for="file" class="form_file">
-                            <input type="file"  id="file">
-                            <div>
-                                <span>Прикрепить файл</span>
-                                <img src="/img/icons/file.svg" alt="ico">
-                            </div>
-                        </label>
-                        <input type="tel" required placeholder="Сообщение">
-                        <button class="btn btn-red">
-                            Отправить
-                        </button>
+                        <form action="{{ route('vacancy') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input name="name" type="text" required placeholder="Ваше имя" class="form_name">
+                            <input name="phone" type="tel" required placeholder="Номер телефона" class="form_tel">
+                            <label for="file" class="form_file">
+                                <input name="file" type="file"  id="file">
+                                <div>
+                                    <span>Прикрепить файл</span>
+                                    <img src="/img/icons/file.svg" alt="ico">
+                                </div>
+                            </label>
+                            <input name="comment" type="tel" required placeholder="Сообщение">
+                            <button class="btn btn-red">
+                                Отправить
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

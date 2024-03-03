@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Category;
 use App\Models\CustomField;
 use App\Models\Product;
+use Arr;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
@@ -63,13 +64,13 @@ class ProductResource extends Resource
                 FileUpload::make('img360')
                     ->image()
                     ->label(__('settings.vid'))
-                    ->multiple()->directory(fn ($record) => '/img360/' . Str::slug($record->name))
+                    ->multiple()->directory(fn () => '/img360/' . Str::slug(Arr::get($form->getLivewire()->data, 'name')))
                     ->preserveFilenames(),
 
                 FileUpload::make('outerimg360')
                     ->image()->label(__('settings.vneshniy-vid'))
                     ->multiple()
-                    ->directory(fn ($record) => '/outer_img360/' . Str::slug($record->name))
+                    ->directory(fn () => '/outer_img360/' . Str::slug(Arr::get($form->getLivewire()->data, 'name')))
                     ->preserveFilenames(),
 
                 KeyValue::make('options')

@@ -23,7 +23,8 @@
 
             @if(!$img)
                 <div class="page-head__video">
-                    <video src="{{ asset('/storage/' . $settings->file) }}" pip="false" autoplay="autoplay" loop="loop" muted="muted" playsinline="" webkit-playsinline=""></video>
+                    <video src="{{ asset('/storage/' . $settings->file) }}" pip="false" autoplay="autoplay" loop="loop"
+                           muted="muted" playsinline="" webkit-playsinline=""></video>
                 </div>
             @endif
 
@@ -82,10 +83,40 @@
     <section class="history">
         <div class="container">
             <h2 class="history__title">
-                История компании
+                {{ __('settings.История компании') }}
             </h2>
             <div class="history-main">
-                <div class="history-item">
+
+                @foreach($about->history as $item)
+                    <div class="history-item">
+                        <div class="history-item__img">
+                            <img src="{{ asset('/storage/'.Arr::get($item, 'img')) }}" alt="history">
+                        </div>
+                        <div class="history-item__content">
+                            <div class="history-item__count">
+                                {{ $loop->iteration < 10 ? '0'.$loop->iteration : $loop->iteration }}
+                            </div>
+                            <div class="history-item__year">
+                                {{ Arr::get($item, 'year') }}
+                            </div>
+                            <div class="history-item__wrap">
+                                <div class="history-item__ico">
+                                    <img src="{{ asset('/storage/'.Arr::get($item, 'icon')) }}" alt="history">
+                                </div>
+                                <div class="history-item__info">
+                                    <div class="history-item__title">
+                                        {{ Arr::get($item, 'title') }}
+                                    </div>
+                                    <div class="history-item__text">
+                                        {{ Arr::get($item, 'text') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                {{--<div class="history-item">
                     <div class="history-item__img">
                         <img src="/img/history/1.png" alt="history">
                     </div>
@@ -552,7 +583,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
             </div>
             <div class="history-line">
                 <div class="history-line__text">
@@ -570,11 +601,14 @@
     <section class="certs">
         <div class="container">
             <div class="certs-images">
-                <img src="/img/certs/about1.png" alt="cert" class="wow fadeInLeft" data-wow-delay=".3s">
+                @foreach($certs as $cert)
+                    <img src="{{ asset('/storage/'. $cert->img) }}" alt="cert" class="wow fadeInLeft" data-wow-delay=".3s">
+                @endforeach
+                {{--<img src="/img/certs/about1.png" alt="cert" class="wow fadeInLeft" data-wow-delay=".3s">
                 <img src="/img/certs/about2.png" alt="cert" class="wow fadeInLeft" data-wow-delay=".5s">
                 <img src="/img/certs/about3.png" alt="cert" class="wow fadeInLeft" data-wow-delay=".7s">
                 <img src="/img/certs/about4.png" alt="cert" class="wow fadeInLeft" data-wow-delay=".9s">
-                <img src="/img/certs/about5.png" alt="cert" class="wow fadeInLeft" data-wow-delay="1.1s">
+                <img src="/img/certs/about5.png" alt="cert" class="wow fadeInLeft" data-wow-delay="1.1s">--}}
             </div>
         </div>
     </section>
@@ -586,15 +620,113 @@
         <div class="container">
             <div class="import-content">
                 <h2 class="import__title wow fadeInUp" data-wow-delay=".3s">
-                    Производственные линии и импортное сырьё
+                    {{ __('settings.Производственные линии') }}
                 </h2>
                 <div class="import__text wow fadeInUp" data-wow-delay=".4s">
-                    Чтобы обеспечить высокое качество продукции, мы импортируем сырье от ведущих брендов <strong>России,
-                        Малайзии, Испании, Турции, Индонезии, Белоруссии и Казахстана.</strong>
+                    {!! __('settings.Чтобы обеспечить') !!}
                 </div>
             </div>
             <div class="import-logos">
+
+                @foreach($about->partners as $partner)
+
+                    @if($loop->iteration === 1)
+                        <div class="import-logos__col">
+                            <div class="import-logos__item wow fadeIn" data-wow-delay=".6s">
+                                <div class="import-logos__inner">
+                                    <div class="import-logos__front">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img')) }}" alt="logo">
+                                    </div>
+                                    <div class="import-logos__back">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img_back')) }}" alt="logo">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                @endforeach
+
                 <div class="import-logos__col">
+                    @foreach($about->partners as $partner)
+
+                        @if($loop->iteration > 1 && $loop->iteration < 4)
+                            <div class="import-logos__item wow fadeIn"
+                                 data-wow-delay=".{{ $loop->iteration === 2 ? '5' : '9' }}s">
+                                <div class="import-logos__inner">
+                                    <div class="import-logos__front">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img')) }}" alt="logo">
+                                    </div>
+                                    <div class="import-logos__back">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img_back')) }}" alt="logo">
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                    @endforeach
+                </div>
+
+                <div class="import-logos__col">
+                    @foreach($about->partners as $partner)
+
+                        @if($loop->iteration > 3 && $loop->iteration < 7)
+                            <div class="import-logos__item wow fadeIn"
+                                 data-wow-delay=".{{ $loop->iteration === 5 ? '9' : '4' }}s">
+                                <div class="import-logos__inner">
+                                    <div class="import-logos__front">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img')) }}" alt="logo">
+                                    </div>
+                                    <div class="import-logos__back">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img_back')) }}" alt="logo">
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                    @endforeach
+                </div>
+
+                <div class="import-logos__col">
+                    @foreach($about->partners as $partner)
+
+                        @if($loop->iteration > 6 && $loop->iteration < 9)
+                            <div class="import-logos__item wow fadeIn"
+                                 data-wow-delay=".{{ $loop->iteration === 7 ? '7' : '8' }}s">
+                                <div class="import-logos__inner">
+                                    <div class="import-logos__front">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img')) }}" alt="logo">
+                                    </div>
+                                    <div class="import-logos__back">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img_back')) }}" alt="logo">
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                    @endforeach
+                </div>
+
+                @foreach($about->partners as $partner)
+
+                    @if($loop->iteration === 9)
+                        <div class="import-logos__col">
+                            <div class="import-logos__item wow fadeIn" data-wow-delay=".3s">
+                                <div class="import-logos__inner">
+                                    <div class="import-logos__front">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img')) }}" alt="logo">
+                                    </div>
+                                    <div class="import-logos__back">
+                                        <img src="{{ asset('/storage/' . Arr::get($partner, 'img_back')) }}" alt="logo">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                @endforeach
+
+                {{--<div class="import-logos__col">
                     <div class="import-logos__item wow fadeIn" data-wow-delay=".6s">
                         <div class="import-logos__inner">
                             <div class="import-logos__front">
@@ -693,13 +825,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
+
             </div>
             <div class="import-wrap">
                 <div class="import__text import__text-abs wow fadeInUp" data-wow-delay=".4s">
-                    Наша продукция производится на производственных линиях из <strong>Германии, Италии, Польше и
-                        Турции.</strong> Рецептуры, технологии и производственные процессы контролируются <strong>российскими
-                        и украинскими</strong> специалистами.
+                    {!! __('settings.Наша продукция производится') !!}
                 </div>
             </div>
         </div>
@@ -711,28 +842,17 @@
     <section class="production">
         <div class="container">
             <h2 class="production__title">
-                Производство
+                {{ __('settings.Производство') }}
             </h2>
         </div>
         <div class="production-carousel owl-carousel">
-            <div class="production-item">
-                <img src="/img/production/1.jpg" alt="production">
-            </div>
-            <div class="production-item">
-                <img src="/img/production/2.jpg" alt="production">
-            </div>
-            <div class="production-item">
-                <img src="/img/production/3.jpg" alt="production">
-            </div>
-            <div class="production-item">
-                <img src="/img/production/1.jpg" alt="production">
-            </div>
-            <div class="production-item">
-                <img src="/img/production/2.jpg" alt="production">
-            </div>
-            <div class="production-item">
-                <img src="/img/production/3.jpg" alt="production">
-            </div>
+
+            @foreach($settings->galery as $val)
+                <div class="production-item">
+                    <img src="{{ asset('/storage/' . $val) }}" alt="production">
+                </div>
+            @endforeach
+
         </div>
         <div class="production-arrows">
 			<span class="arrow-left">

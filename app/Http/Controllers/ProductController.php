@@ -6,10 +6,19 @@ use App\Models\Category;
 use App\Models\CustomField;
 use App\Models\Product;
 use App\Models\Setting;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
+    /**
+     * @param string $slug
+     * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse|Redirector|\Illuminate\View\View
+     */
     public function productSingle(string $slug)
     {
 

@@ -35,5 +35,6 @@ Route::group(
         Route::get('/new/{slug}',       [EventController::class, 'single'])->name('news-single');
         Route::get('/lang/{lang}',      [PageController::class, 'lang'])->name('lang');
         Route::post('/form',            [PageController::class, 'form'])->name('form');
+        Route::post('/vacancy',         [PageController::class, 'vacancy'])->name('vacancy');
     }
 );

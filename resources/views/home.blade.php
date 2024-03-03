@@ -25,3 +25,10 @@
 
     <x-footer/>
 @endsection
+
+{{--
+about
+form
+glavniy rasmlar
+form adminika
+8--}}

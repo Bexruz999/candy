@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
 use App\Models\Advantage;
 use App\Models\Category;
+use App\Models\Certificate;
 use App\Models\Event;
 use App\Models\Map;
 use App\Models\Request;
+use App\Models\Resume;
 use App\Models\Setting;
 
 class PageController extends Controller
@@ -41,6 +44,8 @@ class PageController extends Controller
     {
 
         $settings = Setting::where('page', '=', 'about')->first();
+        $certs = Certificate::take(5)->get();
+        $about = About::first();
 
         if (str_ends_with($settings->file, 'png') || str_ends_with($settings->file, 'jpg')) {
             $img = true;
@@ -50,13 +55,14 @@ class PageController extends Controller
 
         return view('about', [
             'settings' => $settings,
-            'img' => $img
+            'img' => $img,
+            'about' => $about,
+            'certs' => $certs
         ]);
     }
 
     public function partners()
     {
-
 
         $settings = Setting::where('page', '=', 'partners')->first();
 
@@ -118,6 +124,52 @@ class PageController extends Controller
             'chat_id' => $channelId,
             'text' => $text,
         ]);
+        $url = "https://api.telegram.org/bot{$botApiToken}/sendMessage?{$query}";
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+        curl_exec($curl);
+        curl_close($curl);
+
+        return redirect()->back();
+    }
+
+    public function vacancy(\Illuminate\Http\Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'phone' =>'required',
+            'comment' =>'required',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('public/resume');
+        }
+
+        $form = new Resume();
+        $form->name = $validated['name'];
+        $form->phone = $validated['phone'];
+        $form->comment = $validated['comment'];
+        $form->file = str_replace('public/', '', $path);
+        $form->save();
+
+        $botApiToken = env('BOT_ID', '6959250928:AAF01y6JK9Ce1nJXlwbQlOiBfTApOTV2_JQ');
+        $channelId = env('CHAT_ID', '-4171976888');
+        $text = '
+Резюме
+Имя: '. $validated['name'] . '
+Телефон:'.$validated['phone'].'
+сообщение:'.$validated['comment'];
+
+        $query = http_build_query([
+            'chat_id' => $channelId,
+            'text' => $text,
+        ]);
+
         $url = "https://api.telegram.org/bot{$botApiToken}/sendMessage?{$query}";
 
         $curl = curl_init();
