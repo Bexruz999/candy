@@ -61,13 +61,10 @@
             <div class="about-mission">
                 <div class="about-mission__card wow fadeInUp" data-wow-delay=".4s">
                     <h4 class="about-mission__title">
-                        Наша миссия
+                       {{ $about->title }}
                     </h4>
                     <div class="about-mission__text">
-                        Стать одним из крупных производителей кондитерских изделий в Средней Азии. Поэтому мы создаём
-                        успешные бренды и предлагаем их для различных сегментов клиентов. Каждый год компания
-                        производить новые и инновационные творения из высококачественных продуктов чтобы делиться
-                        радостью с нашими покупателями.
+                        {{ $about->text }}
                     </div>
                 </div>
                 <div class="about-mission__img wow fadeInUp" data-wow-delay=".5s">
@@ -87,34 +84,36 @@
             </h2>
             <div class="history-main">
 
-                @foreach($about->history as $item)
-                    <div class="history-item">
-                        <div class="history-item__img">
-                            <img src="{{ asset('/storage/'.Arr::get($item, 'img')) }}" alt="history">
-                        </div>
-                        <div class="history-item__content">
-                            <div class="history-item__count">
-                                {{ $loop->iteration < 10 ? '0'.$loop->iteration : $loop->iteration }}
+                @if(is_countable($about->history))
+                    @foreach($about->history as $item)
+                        <div class="history-item">
+                            <div class="history-item__img">
+                                <img src="{{ asset('/storage/'.Arr::get($item, 'img')) }}" alt="history">
                             </div>
-                            <div class="history-item__year">
-                                {{ Arr::get($item, 'year') }}
-                            </div>
-                            <div class="history-item__wrap">
-                                <div class="history-item__ico">
-                                    <img src="{{ asset('/storage/'.Arr::get($item, 'icon')) }}" alt="history">
+                            <div class="history-item__content">
+                                <div class="history-item__count">
+                                    {{ $loop->iteration < 10 ? '0'.$loop->iteration : $loop->iteration }}
                                 </div>
-                                <div class="history-item__info">
-                                    <div class="history-item__title">
-                                        {{ Arr::get($item, 'title') }}
+                                <div class="history-item__year">
+                                    {{ Arr::get($item, 'year') }}
+                                </div>
+                                <div class="history-item__wrap">
+                                    <div class="history-item__ico">
+                                        <img src="{{ asset('/storage/'.Arr::get($item, 'icon')) }}" alt="history">
                                     </div>
-                                    <div class="history-item__text">
-                                        {{ Arr::get($item, 'text') }}
+                                    <div class="history-item__info">
+                                        <div class="history-item__title">
+                                            {{ Arr::get($item, 'title') }}
+                                        </div>
+                                        <div class="history-item__text">
+                                            {{ Arr::get($item, 'text') }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
 
                 {{--<div class="history-item">
                     <div class="history-item__img">
@@ -847,11 +846,13 @@
         </div>
         <div class="production-carousel owl-carousel">
 
-            @foreach($settings->galery as $val)
-                <div class="production-item">
-                    <img src="{{ asset('/storage/' . $val) }}" alt="production">
-                </div>
-            @endforeach
+            @if(is_countable($settings->galery))
+                @foreach($settings->galery as $val)
+                    <div class="production-item">
+                        <img src="{{ asset('/storage/' . $val) }}" alt="production">
+                    </div>
+                @endforeach
+            @endif
 
         </div>
         <div class="production-arrows">

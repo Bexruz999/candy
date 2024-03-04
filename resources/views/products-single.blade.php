@@ -71,7 +71,7 @@
                             class="cloudimage-360"
                             data-folder="{{ "/storage/outer_img360/$product->slug/" }}"
                             data-filename-x="{index}.png"
-                            data-amount-x="20"
+                            data-amount-x="{{ is_array($product->img360) ? count($product->img360) : '20' }}"
                         ></div>
                         <!-- ЕСЛИ 1 КАРТИНКА ТО ПРОСТО img тег-->
                     </div>

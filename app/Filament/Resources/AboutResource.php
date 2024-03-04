@@ -8,8 +8,10 @@ use App\Models\About;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -19,6 +21,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AboutResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = About::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -28,6 +32,8 @@ class AboutResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name'),
+                TextInput::make('title'),
+                Textarea::make('text')->columnSpanFull(),
                 Repeater::make('history')->schema([
                     TextInput::make('year'),
                     TextInput::make('title'),
