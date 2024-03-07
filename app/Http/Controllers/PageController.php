@@ -7,6 +7,7 @@ use App\Models\Advantage;
 use App\Models\Category;
 use App\Models\Certificate;
 use App\Models\Event;
+use App\Models\History;
 use App\Models\Map;
 use App\Models\Request;
 use App\Models\Resume;
@@ -46,6 +47,7 @@ class PageController extends Controller
         $settings = Setting::where('page', '=', 'about')->first();
         $certs = Certificate::take(5)->get();
         $about = About::first();
+        $histories = History::all();
 
         if (str_ends_with($settings->file, 'png') || str_ends_with($settings->file, 'jpg')) {
             $img = true;
@@ -57,7 +59,8 @@ class PageController extends Controller
             'settings' => $settings,
             'img' => $img,
             'about' => $about,
-            'certs' => $certs
+            'certs' => $certs,
+            'histories' => $histories
         ]);
     }
 

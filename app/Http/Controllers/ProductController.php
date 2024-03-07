@@ -33,9 +33,12 @@ class ProductController extends Controller
             $customFields = CustomField::all();
 
             foreach ($product->custom_fields as $key => $custom) {
-                $customAttr[$key]['icon'] = $customFields
+                $customAttr[$key]['icon'] = !empty($customFields
                     ->where('id', Arr::get($custom, 'icon', '1'))
-                    ->first()->icon;
+                    ->first()->icon) ? $customFields
+                    ->where('id', Arr::get($custom, 'icon', '1'))
+                    ->first()->icon : '';
+
                 $customAttr[$key]['text'] = Arr::get($custom, 'text');
             }
         }

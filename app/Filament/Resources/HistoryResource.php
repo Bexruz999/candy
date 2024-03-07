@@ -2,28 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AboutResource\Pages;
-use App\Filament\Resources\AboutResource\RelationManagers;
-use App\Models\About;
+use App\Filament\Resources\HistoryResource\Pages;
+use App\Filament\Resources\HistoryResource\RelationManagers;
+use App\Models\History;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AboutResource extends Resource
+class HistoryResource extends Resource
 {
     use Translatable;
 
-    protected static ?string $model = About::class;
+    protected static ?string $model = History::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -31,13 +26,11 @@ class AboutResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name'),
-                TextInput::make('title'),
-                Textarea::make('text')->columnSpanFull(),
-                Repeater::make('partners')->schema([
-                    FileUpload::make('img')->image(),
-                    FileUpload::make('img_back')->image(),
-                ])->columnSpanFull(),
+                Forms\Components\TextInput::make('year'),
+                Forms\Components\TextInput::make('title'),
+                Forms\Components\Textarea::make('text'),
+                Forms\Components\FileUpload::make('img')->image(),
+                Forms\Components\FileUpload::make('icon')->image(),
             ]);
     }
 
@@ -45,7 +38,7 @@ class AboutResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
+                Tables\Columns\TextColumn::make('title'),
             ])
             ->filters([
                 //
@@ -70,9 +63,9 @@ class AboutResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAbouts::route('/'),
-            'create' => Pages\CreateAbout::route('/create'),
-            'edit' => Pages\EditAbout::route('/{record}/edit'),
+            'index' => Pages\ListHistories::route('/'),
+            'create' => Pages\CreateHistory::route('/create'),
+            'edit' => Pages\EditHistory::route('/{record}/edit'),
         ];
     }
 }

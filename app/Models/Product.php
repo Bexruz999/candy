@@ -24,7 +24,8 @@ class Product extends Model
         'img360',
         'outerimg360',
         'slug',
-        'status'
+        'status',
+        'options'
     ];
 
     public function category() {
@@ -42,5 +43,6 @@ class Product extends Model
     protected $casts = [
         'img360' => 'array',
         'outerimg360' => 'array',
+        'options' => 'array',
     ];
 }
